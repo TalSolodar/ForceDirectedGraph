@@ -1,4 +1,4 @@
-import { select } from 'd3';
+import { select, selectorAll } from 'd3';
 import { useEffect, useRef } from 'react';
 import { node } from '../../ForceDirectedGraph.types';
 

@@ -1,0 +1,10 @@
+.tooltip {
+    position: absolute;
+    visibility: hidden;
+    background-color: white;
+    fill: white;
+    font-family: sans-serif;
+    padding: 1px;
+    border-radius: 5px;
+    border: 1px solid black;        
+}
