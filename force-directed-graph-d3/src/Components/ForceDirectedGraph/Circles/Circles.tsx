@@ -8,14 +8,16 @@ interface CirclesProps {
     nodes: node[]
     restartDrag: () => void,
     stopDrag: () => void,
+    width: number,
+    height: number
 }
 
-export const Circles = ({ nodes, restartDrag, stopDrag }: CirclesProps) => {
-    let isTooltipEnabled = true;
+export const Circles = ({ nodes, restartDrag, stopDrag, width }: CirclesProps) => {
+    let isTooltipEnabled = true;    
 
     useEffect(() => {
         setMouseEventsListeners();
-    }, []);
+    }, [nodes, restartDrag, stopDrag]);
 
     function onDragStart(event: D3DragEvent<SVGCircleElement, never, never>, d: datum) {
         disableTooltip();
@@ -46,9 +48,9 @@ export const Circles = ({ nodes, restartDrag, stopDrag }: CirclesProps) => {
             .on('drag', onDrag)
             .on('end', onDragEnd);
 
-        dragBehavior(selectAll('.node, .label'));
-        
-        selectAll('.node, .label')
+        dragBehavior(selectAll('.node-container'));
+
+        selectAll('.node-container')
             .on("mouseover", displayTooltip)
             .on("mouseleave", disableTooltip)
     }
@@ -62,9 +64,12 @@ export const Circles = ({ nodes, restartDrag, stopDrag }: CirclesProps) => {
                 .duration(300)
                 .style("visibility", "visible");
 
+            tooltip.html("<div>" + d.name + "</div>");
+
+
             return tooltip.html("<h4>" + d.name + "</h4>")
-                .style("left", (event.pageX + 10) + "px")
-                .style("top", (event.pageY - 10) + "px");
+                .style("left", event.pageX + "px")
+                .style("top", event.pageY + "px");
 
         }
     }

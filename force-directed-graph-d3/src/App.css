@@ -4,7 +4,12 @@
     background-color: white;
     fill: white;
     font-family: sans-serif;
-    padding: 1px;
+    /* padding: 1px; */
     border-radius: 5px;
-    border: 1px solid black;        
+    border: 1px solid black;
 }
+
+.force-directed-graph-container svg{ 
+    /* display: flex; */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6)
+} 

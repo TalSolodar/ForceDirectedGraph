@@ -6,7 +6,7 @@ export const nodesData = [
     },
     {
         name: "B",
-        radiusSize: 15,
+        radiusSize: 12,
         fillColor: "green"
     },
     {

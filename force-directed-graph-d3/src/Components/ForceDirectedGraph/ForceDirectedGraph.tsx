@@ -1,22 +1,21 @@
 import { Simulation, SimulationNodeDatum, forceLink, forceManyBody, forceSimulation, forceX, forceY, selectAll } from 'd3';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { linksData } from "../../Data/Links";
 import { nodesData } from "../../Data/Nodes";
 import { Circles } from './Circles/Circles';
 import { link, node, point } from './ForceDirectedGraph.types';
 import { Links } from './Links/Links';
-import { Labels } from './Labels/Labels';
 
 export const ForceDirectedGraph = () => {
     const [nodes, setNodes] = useState([...nodesData]);
     const [links, setLinks] = useState([...linksData]);
+    const containerRef = useRef<SVGSVGElement | null>(null);
 
     let simulation: Simulation<SimulationNodeDatum, undefined> | undefined;
 
     useEffect(() => {
         simulatePositions();
         drawTicks();
-
     }, []);
 
     const restartDrag = () => {
@@ -67,16 +66,9 @@ export const ForceDirectedGraph = () => {
                 })
                 .attr('cy', (d) => {
                     return (d as point).y
-                });
+                })
             svgLabels
-                .attr('x', (d) => {
-                    return (d as point).x 
-                })
-                .attr('y', (d) => {
-                    console.log(d)
-                    return (d as point).y 
-                })
-
+                .attr("transform", (d) => "translate(" + [(d as point).x, (d as point).y] + ")");
         }
     }
     const width = 640;
@@ -89,14 +81,16 @@ export const ForceDirectedGraph = () => {
                 y={0}
                 width={width}
                 height={height}
+                ref={containerRef}
                 viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
             >
-                    <Links links={links as link[]} />
-                    <Circles
-                        nodes={nodes as node[]}
-                        restartDrag={restartDrag}
-                        stopDrag={stopDrag} />
-                    <Labels nodes={nodes as node[]} />
+                <Links links={links as link[]} />
+                <Circles
+                    height={height}
+                    width={width}
+                    nodes={nodes as node[]}
+                    restartDrag={restartDrag}
+                    stopDrag={stopDrag} />
             </svg>
             <div className='tooltip' />
         </div>
